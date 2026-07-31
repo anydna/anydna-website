@@ -1,0 +1,210 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { priceRows, priceTiers, site } from '../data/site';
+const gbp = (n: number) => `£${n}`;
+---
+<Base
+  title="Pricing | AnyDNA"
+  description="Transparent, volume-based pricing for AnyDNA metabarcoding services. Every price includes one eDNA sampling kit per sample."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Transparent pricing</span>
+      <h1>Volume-based pricing</h1>
+      <p class="lead">
+        A simple framework based on your sample volume — the more you send, the less
+        you pay per sample. Every price below includes one eDNA sampling kit.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="price-card reveal">
+        <div class="price-scroll">
+          <table class="price-table">
+            <caption class="visually-hidden">Price per sample (£) by target community and number of samples</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="col-service">Target community</th>
+                {priceTiers.map((t) => (
+                  <th scope="col"><span class="tier-count">{t}</span><span class="tier-unit">samples</span></th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {priceRows.map((row) => (
+                <tr>
+                  <th scope="row" class="col-service">
+                    <span class="row-name">{row.service}</span>
+                    {row.note && <span class="row-note">{row.note}</span>}
+                  </th>
+                  {row.prices.map((p, i) => (
+                    <td data-label={priceTiers[i]}>
+                      <span class="cell-price">{gbp(p)}</span>
+                      <span class="cell-per">/sample</span>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="price-valid">Prices correct until {site.pricesValidUntil}.</p>
+      </div>
+
+      <div class="notes-grid">
+        <div class="note-item reveal">
+          <span class="note-icon"><Icon name="check" size={20} /></span>
+          <div>
+            <h3>One kit included per sample</h3>
+            <p>Each kit contains a filter, 50 ml syringe, preservation buffer and sterile gloves — ready for rapid, non-invasive field deployment.</p>
+          </div>
+        </div>
+        <div class="note-item reveal">
+          <span class="note-icon"><Icon name="leaf" size={20} /></span>
+          <div>
+            <h3>Extra kits: £{site.extraKitPrice} each</h3>
+            <p>Need more kits than samples? Additional eDNA sampling kits can be purchased separately at £{site.extraKitPrice}.00 per kit.</p>
+          </div>
+        </div>
+        <div class="note-item reveal">
+          <span class="note-icon"><Icon name="clock" size={20} /></span>
+          <div>
+            <h3>{site.turnaround} turnaround</h3>
+            <p>Results are delivered within {site.turnaround} of your samples arriving at our UK laboratory.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-cta reveal">
+        <p>Planning a larger project or a bespoke sampling design?</p>
+        <a href="/contact" class="btn btn--primary">Request a quote <Icon name="arrow" size={18} class="arrow" /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    background:
+      radial-gradient(80% 120% at 100% 0%, rgba(244, 206, 255, 0.5) 0%, transparent 55%),
+      radial-gradient(70% 100% at 0% 0%, rgba(89, 150, 255, 0.1) 0%, transparent 50%),
+      var(--surface);
+    padding-block: clamp(3rem, 7vw, 5rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero .eyebrow { margin-bottom: 1rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .page-hero .lead { max-width: 60ch; }
+
+  .price-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    box-shadow: var(--shadow-sm);
+  }
+  .price-scroll { overflow-x: auto; }
+
+  .price-table { width: 100%; border-collapse: collapse; min-width: 640px; }
+  .price-table thead th {
+    text-align: center;
+    padding: 1rem 0.75rem;
+    border-bottom: 2px solid var(--line);
+    vertical-align: bottom;
+  }
+  .price-table thead th.col-service { text-align: left; }
+  .tier-count {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--ink);
+  }
+  .tier-unit { display: block; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .col-service { text-align: left; }
+  .price-table tbody th.col-service {
+    text-align: left;
+    padding: 1rem 1rem 1rem 0.5rem;
+    font-weight: 600;
+  }
+  .row-name { display: block; font-family: var(--font-display); color: var(--ink); }
+  .row-note { display: block; font-size: 0.82rem; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+  .price-table tbody tr { border-bottom: 1px solid var(--line); }
+  .price-table tbody tr:last-child { border-bottom: none; }
+  .price-table tbody tr:hover { background: var(--surface); }
+  .price-table td { text-align: center; padding: 1rem 0.75rem; }
+  .cell-price { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--brand); }
+  .cell-per { display: block; font-size: 0.72rem; color: var(--muted); }
+
+  /* Highlight the best-value last column */
+  .price-table thead th:last-child .tier-count,
+  .price-table td:last-child .cell-price { color: var(--accent-600); }
+
+  .price-valid {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--line);
+    font-size: 0.88rem;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* Notes */
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  @media (max-width: 820px) { .notes-grid { grid-template-columns: 1fr; } }
+  .note-item { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .note-icon {
+    flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(244, 206, 255, 0.5); color: var(--brand-600);
+  }
+  .note-item h3 { font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .note-item p { color: var(--muted); font-size: 0.94rem; }
+
+  .price-cta {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .price-cta p { font-family: var(--font-display); font-weight: 500; font-size: 1.1rem; }
+
+  /* Mobile: turn rows into cards */
+  @media (max-width: 560px) {
+    .price-table { min-width: 0; }
+    .price-table thead { display: none; }
+    .price-table, .price-table tbody, .price-table tr, .price-table td, .price-table th { display: block; }
+    .price-table tbody tr {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem 1rem;
+      margin-bottom: 1rem;
+    }
+    .price-table tbody tr:hover { background: var(--paper); }
+    .price-table tbody th.col-service { padding: 0.75rem 0 0.5rem; border-bottom: 1px solid var(--line); }
+    .price-table td {
+      display: flex; align-items: baseline; justify-content: space-between;
+      text-align: right; padding: 0.55rem 0;
+    }
+    .price-table td::before {
+      content: attr(data-label) ' samples';
+      font-size: 0.85rem; color: var(--muted);
+    }
+    .cell-per { display: inline; margin-left: 0.35rem; }
+    .price-valid { text-align: left; }
+  }
+</style>

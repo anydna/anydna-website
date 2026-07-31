@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { faqs } from '../data/site';
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<Base
+  title="FAQs | AnyDNA"
+  description="Answers to common questions about AnyDNA's eDNA sampling kits, sample types, turnaround times and metabarcoding services."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} is:inline />
+
+  <section class="page-hero">
+    <div class="container narrow">
+      <span class="eyebrow">Got questions?</span>
+      <h1>Frequently asked questions</h1>
+      <p class="lead">Everything you need to know about kits, samples and results. Can't find it? <a href="/contact">Get in touch</a>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="faq-list">
+        {faqs.map((f, i) => (
+          <details class="faq reveal" open={i === 0}>
+            <summary>
+              <span class="faq-q">{f.q}</span>
+              <span class="faq-mark"><Icon name="arrow" size={18} /></span>
+            </summary>
+            <div class="faq-a"><p>{f.a}</p></div>
+          </details>
+        ))}
+      </div>
+
+      <div class="faq-cta reveal">
+        <span class="faq-cta-icon"><Icon name="mail" size={22} /></span>
+        <div>
+          <h2>Still have a question?</h2>
+          <p>We're happy to talk through your project.</p>
+        </div>
+        <a href="/contact" class="btn btn--primary">Contact us</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    background:
+      radial-gradient(80% 120% at 100% 0%, rgba(244, 206, 255, 0.5) 0%, transparent 55%),
+      radial-gradient(70% 100% at 0% 0%, rgba(89, 150, 255, 0.1) 0%, transparent 50%),
+      var(--surface);
+    padding-block: clamp(3rem, 7vw, 5rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero .eyebrow { margin-bottom: 1rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+
+  .faq-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .faq {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .faq[open] { border-color: transparent; box-shadow: var(--shadow-md); }
+  .faq summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.35rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover { color: var(--brand); }
+  .faq-mark {
+    flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent-050); color: var(--brand);
+    transform: rotate(90deg);
+    transition: transform 0.25s ease, background 0.2s ease;
+  }
+  .faq[open] .faq-mark { transform: rotate(-90deg); background: var(--accent); color: #fff; }
+  .faq-a { padding: 0 1.35rem 1.35rem; }
+  .faq-a p { color: var(--muted); }
+
+  .faq-cta {
+    margin-top: 2.5rem;
+    display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .faq-cta-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--accent-050); color: var(--brand); flex: none;
+  }
+  .faq-cta h2 { font-size: 1.3rem; margin-bottom: 0.15rem; }
+  .faq-cta p { color: var(--muted); }
+  .faq-cta .btn { margin-left: auto; }
+  @media (max-width: 520px) { .faq-cta .btn { margin-left: 0; width: 100%; } }
+</style>

@@ -1,0 +1,146 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const mailtoOrder = `mailto:${site.email}?subject=${encodeURIComponent('Sampling kit order enquiry')}`;
+---
+<Base
+  title="Contact | AnyDNA"
+  description="Get in touch with AnyDNA to order sampling kits or discuss your metabarcoding project. Email contact@anydna.co.uk."
+>
+  <section class="contact">
+    <div class="contact-bg" aria-hidden="true">
+      <svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet">
+        <g fill="none">
+          {Array.from({ length: 12 }).map((_, i) => {
+            const y = 40 + i * 46;
+            const phase = i * 0.55;
+            const x1 = 200 + Math.sin(phase) * 130;
+            const x2 = 200 - Math.sin(phase) * 130;
+            return (
+              <>
+                <line x1={x1} y1={y} x2={x2} y2={y} stroke="rgba(89,150,255,0.55)" stroke-width={Math.abs(Math.cos(phase)) * 2 + 1} />
+                <circle cx={x1} cy={y} r="4" fill="rgba(89,150,255,0.85)" />
+                <circle cx={x2} cy={y} r="4" fill="rgba(244,206,255,0.9)" />
+              </>
+            );
+          })}
+        </g>
+      </svg>
+    </div>
+
+    <div class="container contact-inner">
+      <div class="contact-copy">
+        <span class="eyebrow eyebrow--dark">Get in touch</span>
+        <h1>Let's get to the science.</h1>
+        <p class="lead lead--dark">
+          Stop wrestling with pipelines and get clear data across the entire tree of
+          life. Email us to order sampling kits or to talk through a project.
+        </p>
+
+        <ul class="contact-points">
+          <li><span class="tick"><Icon name="check" size={16} /></span> Attach sample manifests or project requirements</li>
+          <li><span class="tick"><Icon name="check" size={16} /></span> Ask us which assay fits your habitat</li>
+          <li><span class="tick"><Icon name="check" size={16} /></span> Request a quote for larger projects</li>
+        </ul>
+      </div>
+
+      <div class="contact-card">
+        <span class="contact-icon"><Icon name="mail" size={26} /></span>
+        <h2>Email us directly</h2>
+        <p>The fastest way to reach our UK lab. We read every message.</p>
+        <a href={`mailto:${site.email}`} class="contact-email">{site.email}</a>
+        <a href={mailtoOrder} class="btn btn--primary contact-btn">
+          Order sampling kits <Icon name="arrow" size={18} class="arrow" />
+        </a>
+        <p class="contact-tip">Tip: include your sample count and target community so we can respond with everything you need.</p>
+
+        <div class="contact-meta">
+          <p><strong>{site.legalName}</strong></p>
+          <p>{site.registeredOffice}</p>
+          <p>Company No. {site.companyNo} · England &amp; Wales</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(90% 120% at 100% 0%, rgba(89, 150, 255, 0.26) 0%, transparent 52%),
+      radial-gradient(80% 120% at 0% 100%, rgba(244, 206, 255, 0.16) 0%, transparent 55%),
+      var(--ink);
+    color: #fff;
+    padding-block: clamp(3.5rem, 8vw, 6rem);
+  }
+  .contact-bg {
+    position: absolute; top: 50%; right: -4%;
+    transform: translateY(-50%);
+    width: min(34vw, 340px); opacity: 0.5; pointer-events: none;
+  }
+  @media (max-width: 900px) { .contact-bg { opacity: 0.12; } }
+
+  .contact-inner {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  @media (max-width: 860px) { .contact-inner { grid-template-columns: 1fr; } }
+
+  .eyebrow--dark { color: var(--pink); }
+  .eyebrow--dark::before { background: var(--pink); }
+  .contact-copy h1 { color: #fff; margin: 1rem 0; }
+  .lead--dark { color: rgba(255,255,255,0.78); max-width: 48ch; }
+
+  .contact-points { list-style: none; padding: 0; margin-top: 2rem; display: grid; gap: 0.85rem; }
+  .contact-points li { display: flex; align-items: center; gap: 0.7rem; color: rgba(255,255,255,0.85); }
+  .tick {
+    flex: none; display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(89,150,255,0.22); color: var(--brand);
+  }
+
+  .contact-card {
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    box-shadow: var(--shadow-lg);
+  }
+  .contact-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 56px; height: 56px; border-radius: 16px;
+    background: var(--accent-050); color: var(--brand);
+    margin-bottom: 1.25rem;
+  }
+  .contact-card h2 { font-size: 1.5rem; margin-bottom: 0.4rem; }
+  .contact-card > p { color: var(--muted); }
+  .contact-email {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--brand);
+    margin: 1rem 0 1.5rem;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 3px;
+    word-break: break-all;
+  }
+  .contact-btn { width: 100%; }
+  .contact-tip { font-size: 0.88rem; color: var(--muted); margin-top: 1rem; }
+
+  .contact-meta {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .contact-meta p { line-height: 1.6; }
+  .contact-meta strong { color: var(--ink); font-family: var(--font-display); }
+</style>

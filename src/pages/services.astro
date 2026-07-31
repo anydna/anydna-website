@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { services } from '../data/site';
+---
+<Base
+  title="Services | AnyDNA"
+  description="Specialist metabarcoding services from AnyDNA — fish, vertebrate, invertebrate, fungal and bacterial assays, multi-taxa suites and advanced bioinformatics."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">What we do</span>
+      <h1>Specialist metabarcoding services</h1>
+      <p class="lead">
+        Choose a targeted assay or combine communities from a single filter. Every
+        service runs through optimised, reproducible pipelines and returns clear
+        biodiversity data within 8 weeks.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="services-grid">
+        {services.map((s, i) => (
+          <article class="service-card reveal" id={s.id} style={`transition-delay:${(i % 3) * 80}ms`}>
+            <div class="service-head">
+              <span class="service-icon"><Icon name={s.icon} size={26} /></span>
+              <span class="service-tag">{s.sample}</span>
+            </div>
+            <h3>{s.name}</h3>
+            <p class="service-summary">{s.summary}</p>
+            <p class="service-detail">{s.detail}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint">
+    <div class="container">
+      <div class="band reveal">
+        <div>
+          <h2>Not sure which assay fits?</h2>
+          <p>Tell us your habitat, target community and sample count — we'll recommend the right service.</p>
+        </div>
+        <div class="band-actions">
+          <a href="/contact" class="btn btn--primary">Talk to us <Icon name="arrow" size={18} class="arrow" /></a>
+          <a href="/pricing" class="btn btn--ghost">View pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    background:
+      radial-gradient(80% 120% at 100% 0%, rgba(244, 206, 255, 0.5) 0%, transparent 55%),
+      radial-gradient(70% 100% at 0% 0%, rgba(89, 150, 255, 0.1) 0%, transparent 50%),
+      var(--surface);
+    padding-block: clamp(3rem, 7vw, 5rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero .eyebrow { margin-bottom: 1rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .page-hero .lead { max-width: 60ch; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+  @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
+
+  .service-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 3vw, 1.9rem);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    scroll-margin-top: 90px;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: transparent; }
+  .service-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; }
+  .service-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--accent-050); color: var(--brand);
+  }
+  .service-tag {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+  }
+  .service-card h3 { margin-bottom: 0.55rem; }
+  .service-summary { font-weight: 500; color: var(--ink-soft); margin-bottom: 0.7rem; }
+  .service-detail { color: var(--muted); font-size: 0.96rem; }
+
+  .band {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+  }
+  .band h2 { margin-bottom: 0.5rem; }
+  .band p { color: var(--muted); max-width: 46ch; }
+  .band-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+</style>

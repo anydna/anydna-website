@@ -1,0 +1,87 @@
+---
+import { nav, site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <img src="/anydna-logo-white.png" alt={`${site.name} logo`} width="160" height="27" />
+      <p class="footer-strapline">{site.strapline}</p>
+      <a href={`mailto:${site.email}`} class="footer-email">{site.email}</a>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer">
+      <span class="footer-heading">Explore</span>
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="footer-legal-block">
+      <span class="footer-heading">AnyDNA Limited</span>
+      <p>Registered in England &amp; Wales</p>
+      <p>Company No. {site.companyNo}</p>
+      <p>{site.registeredOffice}</p>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {year} {site.legalName}. All rights reserved.</p>
+    <p class="footer-tag">Transparent DNA innovation, made in the UK.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.72);
+    padding-top: clamp(3rem, 6vw, 4.5rem);
+    margin-top: 0;
+  }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.3fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-bottom: 3rem;
+  }
+  .footer-brand img { height: 27px; width: auto; margin-bottom: 1.1rem; }
+  .footer-strapline { max-width: 34ch; line-height: 1.6; margin-bottom: 1.1rem; }
+  .footer-email {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: #fff;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+  .footer-email:hover { color: var(--accent); }
+
+  .footer-heading {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 1rem;
+  }
+  .footer-nav { display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-nav a { color: rgba(255, 255, 255, 0.72); width: fit-content; }
+  .footer-nav a:hover { color: #fff; }
+
+  .footer-legal-block p { line-height: 1.6; font-size: 0.94rem; }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  @media (max-width: 760px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 2.25rem; }
+    .footer-bottom { flex-direction: column; }
+  }
+</style>
