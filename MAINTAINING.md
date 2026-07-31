@@ -32,9 +32,20 @@ Clone a fresh copy, edit, publish, then remove it:
 ```bash
 git clone https://github.com/anydna/anydna-website.git
 cd anydna-website
+
+# Set the commit identity for this clone — do this every time you clone
+git config user.name "AnyDNA Limited"
+git config user.email "anydna@users.noreply.github.com"
+
 npm install        # install dependencies
 npm run dev        # live preview at http://localhost:4321
 ```
+
+> **Always run those two `git config` lines after cloning.** They apply to this clone
+> only (not your global git settings), and they keep personal names, emails and
+> machine details out of the public commit history. The `@users.noreply.github.com`
+> address is GitHub's privacy address: it exposes no real mailbox while still
+> attributing commits to the `anydna` account.
 
 Edit the files (see the table below), checking the preview as you go. When happy:
 
@@ -75,6 +86,8 @@ Most routine edits are just text and numbers in `src/data/site.ts`.
 ```bash
 git clone https://github.com/anydna/anydna-website.git   # get a fresh copy
 cd anydna-website
+git config user.name "AnyDNA Limited"                    # set commit identity
+git config user.email "anydna@users.noreply.github.com"  # (per clone, every time)
 npm install               # install dependencies
 npm run dev               # live preview at http://localhost:4321
 npm run build             # optional: build into dist/ to check it compiles
